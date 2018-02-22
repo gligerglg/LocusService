@@ -1,7 +1,6 @@
 package plugins.gligerglg.locusservice;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +22,6 @@ public class LocusService {
     private Context context;
     private Location final_net, final_gps;
     private RealtimeListenerService listenerService;
-    private static final String proxy_intent = "GLIGER_PROXIMITY_ALERT";
 
     private LocationListener realtime_listener = new LocationListener() {
         @Override
@@ -49,7 +47,7 @@ public class LocusService {
         }
     };
 
-    public interface RealtimeListenerService {
+    private interface RealtimeListenerService {
         public void OnRealLocationChanged(Location location);
     }
 
@@ -130,7 +128,7 @@ public class LocusService {
         return final_net;
     }
 
-    public void OpenSettings() {
+    private void OpenSettings() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("Do you want to Open GPS?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -149,7 +147,7 @@ public class LocusService {
         builder.create().show();
     }
 
-    protected void GetRealtimeLocation(long interval) {
+    private void GetRealtimeLocation(long interval) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
@@ -162,25 +160,5 @@ public class LocusService {
 
     public void StopRealTimeListening() {
         locationManager.removeUpdates(realtime_listener);
-    }
-
-    public void SetProximityAlert(double latitude,double longitude, long radius) {
-        Intent intent = new Intent(proxy_intent);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        locationManager.addProximityAlert(latitude, longitude, radius, -1, pendingIntent);
-    }
-
-    public void SetProximityAlert(double latitude,double longitude, long radius, long expireTime) {
-        Intent intent = new Intent(proxy_intent);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        locationManager.addProximityAlert(latitude, longitude, radius, expireTime, pendingIntent);
     }
 }
