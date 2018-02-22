@@ -9,7 +9,6 @@ Android library to access location data in easy way.
   <li>GetGPSLocation() - Only one GPS location fix will be returned</li>
   <li>GetNetLocation() - Only one Network location fix will be returned</li>
   <li>RealTimeLocationListener - Used for tracking services. Real-time location will be returned</li>
-  <li>SetProximityAlert() - Proximity alerts can be setup for a given location and radius</li>
 </ul></pre>
 
 <h3>How Works?</h3>
@@ -75,36 +74,4 @@ You can stop listening whenever you want.
         locusService.StopRealtimeListening();
 </code></pre>
 
-The other service of this library is giving chance to setup proximity alerts.<br>
-Simply Add this code segment!
-<pre><code>
-        locusService.SetProximityAlert(double latitude,double longitude, long radius);
-        locusService.SetProximityAlert(double latitude,double longitude, long radius, long expireTime);
-</code></pre>
-Here we do have 2 methods, You can use any of them. First method doesen't have any expire time for the proximity alert.<br>
-Now you need to create a Reciever class.
-<pre><code>
-       public class YourReceiver extends BroadcastReceiver {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                final String key = LocationManager.KEY_PROXIMITY_ENTERING;
-                final Boolean entering = intent.getBooleanExtra(key, false);
-
-                if (entering) {
-                    Toast.makeText(context, "entering", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "exiting", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-</code></pre>
-Now register the receiver in your manifest. Use following code segment
-<pre>
-        &ltreceiver android:name="yourpackage.YourReceiver " &gt
-            &ltintent-filter&gt
-                &ltaction android:name="GLIGER_PROXIMITY_ALERT" /&gt
-            &lt/intent-filter&gt
-        &lt/receiver&gt
-</pre>
 That's All. Happy Coding ;)
