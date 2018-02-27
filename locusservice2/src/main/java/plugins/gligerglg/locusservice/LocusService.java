@@ -170,7 +170,7 @@ public class LocusService {
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, interval, 0, realtime_listener);
     }
 
-    public void starttimeGPSListening(long interval) {
+    public void startRealtimeGPSListening(long interval) {
         getRealtimeGPSLocation(interval);
     }
 
