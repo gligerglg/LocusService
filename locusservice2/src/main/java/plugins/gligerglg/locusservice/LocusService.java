@@ -147,18 +147,33 @@ public class LocusService {
         builder.create().show();
     }
 
-    private void GetRealtimeLocation(long interval) {
+    private void getRealtimeGPSLocation(long interval) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval, 0, realtime_listener);
     }
 
-    public void StartRealtimeListening(long interval) {
-        GetRealtimeLocation(interval);
+    private void getRealtimeNetLocation(long interval) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, interval, 0, realtime_listener);
     }
 
-    public void StopRealTimeListening() {
+    public void startRealtimeGPSListening(long interval) {
+        getRealtimeGPSLocation(interval);
+    }
+
+    public void stopRealTimeGPSListening() {
+        locationManager.removeUpdates(realtime_listener);
+    }
+
+    public void startRealtimeNetListening(long interval) {
+        getRealtimeNetLocation(interval);
+    }
+
+    public void stopRealTimeNetListening() {
         locationManager.removeUpdates(realtime_listener);
     }
 }
