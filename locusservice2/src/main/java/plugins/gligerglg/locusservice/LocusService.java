@@ -25,7 +25,7 @@ public class LocusService {
     private RealtimeListenerService listenerService;
     private boolean isAutoDetectionEnabled;
 
-    private LocationListener realtime_listener = new LocationListener() {
+    public LocationListener realtime_listener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
@@ -51,7 +51,7 @@ public class LocusService {
     };
 
     private interface RealtimeListenerService {
-        public void OnRealLocationChanged(Location location);
+        void OnRealLocationChanged(Location location);
     }
 
     public LocusService(Context context) {
