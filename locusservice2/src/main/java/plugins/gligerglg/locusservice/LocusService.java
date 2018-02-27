@@ -137,7 +137,7 @@ public class LocusService {
         return final_net;
     }
 
-    private void openSettingsWindow(String message) {
+    public void openSettingsWindow(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -170,7 +170,7 @@ public class LocusService {
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, interval, 0, realtime_listener);
     }
 
-    public void startRealtimeGPSListening(long interval) {
+    public void starttimeGPSListening(long interval) {
         getRealtimeGPSLocation(interval);
     }
 
