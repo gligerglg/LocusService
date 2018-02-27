@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 /*
  * Created by Gayan Lakshitha on 2/20/2018.
@@ -22,6 +23,7 @@ public class LocusService {
     private Context context;
     private Location final_net, final_gps;
     private RealtimeListenerService listenerService;
+    private boolean isAutoDetectionEnabled;
 
     private LocationListener realtime_listener = new LocationListener() {
         @Override
@@ -43,26 +45,34 @@ public class LocusService {
 
         @Override
         public void onProviderDisabled(String provider) {
-            OpenSettings();
+            if(isAutoDetectionEnabled)
+                openSettingsWindow("Do You Want to Enable GPS?");
         }
     };
 
     private interface RealtimeListenerService {
-        public void OnRealLocationChanged(Location location);
+        void OnRealLocationChanged(Location location);
     }
 
     public LocusService(Context context) {
         this.context = context;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        isAutoDetectionEnabled = true;
+    }
+
+    public LocusService(Context context,boolean autoDetectProviderAvailability) {
+        this.context = context;
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        isAutoDetectionEnabled = autoDetectProviderAvailability;
     }
 
     public void setRealTimeLocationListener(RealtimeListenerService listener) {
         this.listenerService = listener;
     }
 
-    public Location GetGPSLocation() {
+    public Location getGPSLocation() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+            ToastMessage("Check Manifest Permission!");
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
@@ -86,17 +96,17 @@ public class LocusService {
 
             @Override
             public void onProviderDisabled(String provider) {
-
-                OpenSettings();
+                if(isAutoDetectionEnabled)
+                    openSettingsWindow("Do You Want to Enable GPS?");
             }
         });
 
         return final_gps;
     }
 
-    public Location GetNetLocation() {
+    public Location getNetLocation() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+            ToastMessage("Check Manifest Permission!");
         }
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
@@ -115,22 +125,21 @@ public class LocusService {
 
             @Override
             public void onProviderEnabled(String provider) {
-
             }
 
             @Override
             public void onProviderDisabled(String provider) {
-
-                OpenSettings();
+                if(isAutoDetectionEnabled)
+                    openSettingsWindow("Do You Want to Enable GPS?");
             }
         });
 
         return final_net;
     }
 
-    private void OpenSettings() {
+    private void openSettingsWindow(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Do you want to Open GPS?")
+        builder.setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -149,14 +158,14 @@ public class LocusService {
 
     private void getRealtimeGPSLocation(long interval) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+            ToastMessage("Check Manifest Permission!");
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval, 0, realtime_listener);
     }
 
     private void getRealtimeNetLocation(long interval) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+            ToastMessage("Check Manifest Permission!");
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, interval, 0, realtime_listener);
     }
@@ -175,5 +184,14 @@ public class LocusService {
 
     public void stopRealTimeNetListening() {
         locationManager.removeUpdates(realtime_listener);
+    }
+
+    public boolean isGPSProviderEnabled(){return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);}
+
+    public boolean isNetProviderEnabled(){return  locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);}
+
+    private void ToastMessage(String message)
+    {
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
 }
