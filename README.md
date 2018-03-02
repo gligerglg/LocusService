@@ -35,11 +35,12 @@ Add it in your root build.gradle at the end of repositories:
 Insert android manifest permission 
 
 
-	```xml
-        &ltuses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION"&gt&lt/uses-permission&gt
-        &ltuses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION"&gt&lt/uses-permission&gt
-        &ltuses-permission android:name="android.permisssion.INTERNET"&gt&lt/uses-permission&gt
-	```
+<pre>
+        &ltuses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION"/&gt
+        &ltuses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION"/&gt
+        &ltuses-permission android:name="android.permisssion.INTERNET"/&gt
+	
+</pre>
 
 <h4>Step : 3</h4>
 Create a LocusService instance and initialize it.
@@ -48,10 +49,12 @@ Create a LocusService instance and initialize it.
 </code></pre>
 
 If you prefer to get your real GPS position information with a single fix you can use following mrthod.
-<pre><code>
+
+```java
         Location location_gps = locusService.GetGPSLocation();
         *Returning location can be null. Therefore check nullability before using it.
-</code></pre>
+	```
+
 
 If you prefer to get your real Neteork position information with a single fix you can use following mrthod.
 <pre><code>
