@@ -16,15 +16,12 @@ Android library to access location data in easy way.
 <h4>Step : 1.1 -  Add the JitPack repository to your build file </h4>
 Add it in your root build.gradle at the end of repositories:
 
-	
-	```java
 	allprojects {
 		repositories {
 			...
 			maven { url 'https://jitpack.io' }
 		}
 	}
-	```
 	
 
 <h4>Step : 1.2 -  Add the dependency</h4>
@@ -37,11 +34,13 @@ Add it in your root build.gradle at the end of repositories:
 <h4>Step : 2</h4>
 Insert android manifest permission 
 
-<pre>
+
+	```xml
         &ltuses-permission android:name="android.permisssion.ACCESS_FINE_LOCATION"&gt&lt/uses-permission&gt
         &ltuses-permission android:name="android.permisssion.ACCESS_COARSE_LOCATION"&gt&lt/uses-permission&gt
         &ltuses-permission android:name="android.permisssion.INTERNET"&gt&lt/uses-permission&gt
-</pre> 
+	```
+
 <h4>Step : 3</h4>
 Create a LocusService instance and initialize it.
 <pre><code>
