@@ -44,9 +44,16 @@ Insert android manifest permission
 
 <h4>Step : 3</h4>
 Create a LocusService instance and initialize it.
+Here we have 2 overload methods if you do use first method, when the provider is disabled in runtime, an alert dialog will be
+pop up automatically to enable GPS service. Using 2nd method you can choose whether you are prefer to use this service or not.
 
 ```java
+	//Automatic Provider Availability detection active (default)
         LocusService locusService = new LocusService(this);
+	
+	//Automatic provider availability detection can be defined by user
+	LocusService locusService = new LocusService(this,false);	//Here we doesn't expect provider detection
+	
 ```
 
 
@@ -54,18 +61,27 @@ If you prefer to get your real GPS position information with a single fix you ca
 
 
 ```java
-        Location location_gps = locusService.GetGPSLocation();
+        Location location_gps = locusService.getGPSLocation();
         if(location_gps!=null)
+	{
 		//Use this location for your work
+		double latitude = location_gps.getLatitude();
+		double longitude = location_gps.getLongitude();
+	}
+		
 ```
 
 
 If you prefer to get your real Neteork position information with a single fix you can use following mrthod.
 
 ```java
-        Location location_net = locusService.GetNetLocation();
+        Location location_net = locusService.getNetLocation();
         if(location_net!=null)
+	{
 		//Use this location for your work
+		double latitude = location_net.getLatitude();
+		double longitude = location_net.getLongitude();
+	}
 ```
 
 
@@ -81,17 +97,40 @@ First create a listener<br>
         });
 ```
 
-Then start Listening by invoking below method. You need to specify the interval between each location update in miliseconds.
+You can get the real-time location either GPS or Net provider.
+Start Listening by invoking below method. You need to specify the interval between each location update in miliseconds.
 
 ```java
-        locusService.StartRealtimeListening(0); //interval is '0' here.
+
+	//Real-time location by GPS provider
+        locusService.startRealtimeGPSListening(1000); 	//interval between 2 readings. hear it is 1 sec
+	
+	//Real-time location by Network provider
+        locusService.startRealtimeNetListening(1000); 	//interval between 2 readings. hear it is 1 sec
+	
 ```
 
 You can stop listening whenever you want.
 
 ```java
-        locusService.StopRealtimeListening();
+
+        locusService.stopRealTimeGPSListening();
+	locusService.stopRealTimeNetListening();
 ```
 
+Sometimes you may need to know whether a provider is enabled or not. Here we have 2 methods to know that.
+
+```java
+	boolean gps_status = isGPSProviderEnabled();
+	boolean net_status = isNetProviderEnabled();
+```
+How did you initialize the LocusService intent? Using 1st method? then if your service provider is disabled in runtime
+an Alert dialog will show and tell you to enable it. What if you've chosen the 2nd mrthod? then you can display a custom 
+alert dialog box with your own message. Very simple
+
+```java
+	openSettingsWindow("Message to Show!");
+	```
+	
 
 That's All. Happy Coding ;)
