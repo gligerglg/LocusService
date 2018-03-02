@@ -130,7 +130,8 @@ alert dialog box with your own message. Very simple
 
 ```java
 	openSettingsWindow("Message to Show!");
-	```
+	
+```
 	
 
 That's All. Happy Coding ;)
