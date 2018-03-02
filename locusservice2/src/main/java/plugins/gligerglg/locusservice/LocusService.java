@@ -51,7 +51,7 @@ public class LocusService {
     };
 
     public interface RealtimeListenerService {
-        void OnRealLocationChanged(Location location);
+        public void OnRealLocationChanged(Location location);
     }
 
     public LocusService(Context context) {
