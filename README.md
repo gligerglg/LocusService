@@ -48,6 +48,7 @@ Here we have 2 overload methods if you do use first method, when the provider is
 pop up automatically to enable GPS service. Using 2nd method you can choose whether you are prefer to use this service or not.
 
 ```java
+
 	//Automatic Provider Availability detection active (default)
         LocusService locusService = new LocusService(this);
 	
@@ -61,6 +62,7 @@ If you prefer to get your real GPS position information with a single fix you ca
 
 
 ```java
+
         Location location_gps = locusService.getGPSLocation();
         if(location_gps!=null)
 	{
@@ -72,9 +74,10 @@ If you prefer to get your real GPS position information with a single fix you ca
 ```
 
 
-If you prefer to get your real Neteork position information with a single fix you can use following mrthod.
+If you prefer to get your real Network position information with a single fix you can use following mrthod.
 
 ```java
+
         Location location_net = locusService.getNetLocation();
         if(location_net!=null)
 	{
@@ -89,6 +92,7 @@ If you are developing a tracking application, you need to have the real-time loc
 First create a listener<br>
 
 ```java
+
         locusService.setRealTimeLocationListener(new LocusService.RealtimeListenerService() {
             @Override
             public void OnRealLocationChanged(Location location) {
@@ -121,6 +125,7 @@ You can stop listening whenever you want.
 Sometimes you may need to know whether a provider is enabled or not. Here we have 2 methods to know that.
 
 ```java
+
 	boolean gps_status = isGPSProviderEnabled();
 	boolean net_status = isNetProviderEnabled();
 ```
@@ -129,6 +134,7 @@ an Alert dialog will show and tell you to enable it. What if you've chosen the 2
 alert dialog box with your own message. Very simple
 
 ```java
+
 	openSettingsWindow("Message to Show!");
 	
 ```
