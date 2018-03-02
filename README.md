@@ -44,41 +44,54 @@ Insert android manifest permission
 
 <h4>Step : 3</h4>
 Create a LocusService instance and initialize it.
-<pre><code>
+
+```java
         LocusService locusService = new LocusService(this);
-</code></pre>
+```
+
 
 If you prefer to get your real GPS position information with a single fix you can use following mrthod.
 
+
 ```java
         Location location_gps = locusService.GetGPSLocation();
-        *Returning location can be null. Therefore check nullability before using it.
-	```
+        if(location_gps!=null)
+		//Use this location for your work
+```
 
 
 If you prefer to get your real Neteork position information with a single fix you can use following mrthod.
-<pre><code>
+
+```java
         Location location_net = locusService.GetNetLocation();
-        *Returning location can be null. Therefore check nullability before using it.
-</code></pre>
+        if(location_net!=null)
+		//Use this location for your work
+```
+
 
 If you are developing a tracking application, you need to have the real-time location change updated. Here it is very simple.<br>
 First create a listener<br>
-<pre><code>
+
+```java
         locusService.setRealTimeLocationListener(new LocusService.RealtimeListenerService() {
             @Override
             public void OnRealLocationChanged(Location location) {
-                    txt_real.setText("RealTime Location\nLatitude\t" + location.getLatitude() + "\nLongitude\t" + location.getLongitude());
+                    txt_real.setText("RealTime Location\nLatitude\t" + location.getLatitude() + "\nLongitude\t" + 				    	location.getLongitude());
             }
         });
-</code></pre>
+```
+
 Then start Listening by invoking below method. You need to specify the interval between each location update in miliseconds.
-<pre><code>
+
+```java
         locusService.StartRealtimeListening(0); //interval is '0' here.
-</code></pre>
+```
+
 You can stop listening whenever you want.
-<pre><code>
+
+```java
         locusService.StopRealtimeListening();
-</code></pre>
+```
+
 
 That's All. Happy Coding ;)
