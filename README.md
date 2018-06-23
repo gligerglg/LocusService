@@ -27,7 +27,7 @@ Add it in your root build.gradle at the end of repositories:
 <h4>Step : 1.2 -  Add the dependency</h4>
 
 	dependencies {
-	        compile 'com.github.gligerglg:LocusService:v3.0.0'
+	        implementation 'com.github.gligerglg:LocusService:v3.0.0'
 	}
 
 
